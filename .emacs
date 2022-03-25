@@ -1,11 +1,16 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+(add-to-list 'package-archives '("nongnu" . "https://elpa.nongnu.org/nongnu/") t)
 (package-initialize)
+
+(require 'evil)
+(evil-mode 1)
+
 
 (use-package org-roam
   :ensure t
   :custom
-  (org-roam-directory "~/org-roam")
+  (org-roam-directory "~/repos/org-roam")
   :bind (("C-c n l" . org-roam-buffer-toggle)
 	 ("C-c n f" . org-roam-node-find)
 	 ("C-c n i" . org-roam-node-insert))
@@ -17,7 +22,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(marginalia orderless vertico projectile use-package org-roam)))
+   '(evil org-contrib wolfram-mode marginalia orderless vertico projectile use-package org-roam)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -41,3 +46,18 @@
 	 ("M-A" . marginalia-cycle))
   :init
   (marginalia-mode))
+
+;; Load mathematica from contrib
+(org-babel-do-load-languages 'org-babel-load-languages
+			     (append org-babel-load-languages
+				     '((mathematica -t))
+				     ))
+;; Sanitize output and deal with paths
+(setq org-babel-mathematica-command "~/.local/bin/mash")
+;; Font-locking
+(add-to-list 'org-src-lang-modes '("mathematica" . wolfram))
+;; For wolfram-mode
+(setq mathematica-command-line "~/.local/bin/mash")
+
+;;use larger font
+(setq default-frame-alist '((font . "Source Code Pro-14")))

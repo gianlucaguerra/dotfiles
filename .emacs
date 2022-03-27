@@ -6,6 +6,7 @@
 (require 'evil)
 (evil-mode 1)
 
+(require 'scheme)
 
 (use-package org-roam
   :ensure t
@@ -22,7 +23,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(evil org-contrib wolfram-mode marginalia orderless vertico projectile use-package org-roam)))
+   '(geiser-guile geiser-racket geiser-mit evil org-contrib wolfram-mode marginalia orderless vertico projectile use-package org-roam))
+ '(scheme-program-name "mit-scheme"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -49,9 +51,9 @@
 
 ;; Load mathematica from contrib
 (org-babel-do-load-languages 'org-babel-load-languages
-			     (append org-babel-load-languages
-				     '((mathematica -t))
-				     ))
+			     '((mathematica -t)
+			       (scheme . -t))) 
+
 ;; Sanitize output and deal with paths
 (setq org-babel-mathematica-command "~/.local/bin/mash")
 ;; Font-locking
@@ -61,3 +63,8 @@
 
 ;;use larger font
 (setq default-frame-alist '((font . "Source Code Pro-14")))
+
+(setq geiser-active-implementations '(guile))
+(setq geiser-guile-binary "guile2.2")
+
+
